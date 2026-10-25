@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Cluster/ROSIE entrypoint for the ColabFold + Rosetta cone-NC pipeline.
+"""Cluster/ROSIE entrypoint for PROBE-Select.
 
 Replaces the former entrypoint.sh. Console output is deliberately ASCII-only:
 cluster jobs frequently run under LANG=C, where printing a non-ASCII character
