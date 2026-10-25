@@ -223,7 +223,6 @@ def _parse_mmcif_dssp_ss(text: str) -> list:
             None,
         )
         if ss_idx is None:
-            # Skip data rows of this loop.
             while i < n:
                 s = lines[i].strip()
                 if not s or s.startswith("#") or s == "loop_" or s.startswith("_") or s.startswith("data_"):
@@ -568,7 +567,6 @@ def main():
             out["coil_fraction"] = out["coil_fraction"].round(3)
         return out
 
-    # Keep audit columns when present.
     out_cols = ["model", "pdb_path", "mean_plddt", "rmsd_to_best", "cluster", "rep_id"]
     if "coil_fraction" in df_all.columns:
         out_cols.insert(3, "coil_fraction")

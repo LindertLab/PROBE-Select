@@ -1004,7 +1004,6 @@ def write_best_single_reagent_outputs(uid: str, summary_df: pd.DataFrame, rules_
                 lines.append(f"       • not labeled -> {fmt_rep_set(label_branch['step2_if_no_label'])}")
             else:
                 lines.append(f"   - If labeled -> {fmt_rep_set(tree['step1_if_label'])}")
-        # include no-label branch step2 if present
         no_label_branch = next((b for b in tree["branches"] if b.get("branch") == "no_label"), None)
         if no_label_branch and no_label_branch.get("step2_residue"):
             lines.append(f"2. If {tree['step1_residue']} is NOT labeled, test {no_label_branch['step2_residue']}:")
@@ -1014,7 +1013,6 @@ def write_best_single_reagent_outputs(uid: str, summary_df: pd.DataFrame, rules_
     lines += ["", "Signature code: 1 = label, 0 = no label, ? = ambiguous"]
     txt_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
-    # Figure
     fig, ax = plt.subplots(figsize=(11, 8.5), facecolor=COLORS["bg"])
     ax.axis("off")
     ax.set_facecolor(COLORS["bg"])
@@ -1036,7 +1034,6 @@ def write_best_single_reagent_outputs(uid: str, summary_df: pd.DataFrame, rules_
         ax.text(0.5, 0.52, "Could not build a decision tree for the top-ranked reagent.",
                 ha="center", va="center", fontsize=13, color=COLORS["text"], transform=ax.transAxes)
     else:
-        # Shifted tree layout slightly downward
         step1 = (0.5, 0.63)
         left_decision = (0.23, 0.19)
         middle_decision = (0.50, 0.19)
@@ -1051,7 +1048,6 @@ def write_best_single_reagent_outputs(uid: str, summary_df: pd.DataFrame, rules_
         draw_branch_label(ax, (0.29, 0.515), "LABELED", COLORS["labeled"], COLORS["label_fill"])
         draw_branch_label(ax, (0.71, 0.515), "NOT LABELED", COLORS["not_labeled"], COLORS["nolabel_fill"])
 
-        # label branch
         label_branch = next((b for b in tree["branches"] if b.get("branch") == "label"), None)
         if label_branch and label_branch.get("step2_residue"):
             draw_round_box(ax, step2_left, 0.26, 0.09, f"Step 2\n{label_branch['step2_residue']}",
@@ -1068,7 +1064,6 @@ def write_best_single_reagent_outputs(uid: str, summary_df: pd.DataFrame, rules_
             draw_round_box(ax, step2_left, 0.28, 0.08, fmt_rep_set(tree["step1_if_label"]),
                            COLORS["decision_fill"], COLORS["line"], fontsize=10)
 
-        # no-label branch
         no_label_branch = next((b for b in tree["branches"] if b.get("branch") == "no_label"), None)
         if no_label_branch and no_label_branch.get("step2_residue"):
             draw_round_box(ax, step2_right, 0.26, 0.09, f"Step 2\n{no_label_branch['step2_residue']}",
