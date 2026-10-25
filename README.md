@@ -1,9 +1,14 @@
-# ColabFold + Rosetta Cone-NC + Pairwise ΔNC Covalent-Labeling Pipeline
+# PROBE-Select
 
-Given a protein sequence, this pipeline builds three alternative structural
-models, scores every residue with Rosetta cone neighbor count (NC), and lists
-covalent-labeling sites whose NC differs enough between models to be useful
-experimentally.
+PROBE-Select (PRotein-Oriented Best-reagent Evaluator for Selective labeling)
+is the pipeline behind the PROBE-Select webserver on ROSIE. This README is the
+developer reference for the pipeline and its `job.json` interface. The
+user-facing documentation for the webserver is maintained separately.
+
+Given a protein sequence, or a set of predicted structures you already have,
+this pipeline builds three alternative structural models, scores every residue
+with Rosetta cone neighbor count (NC), and lists covalent-labeling sites whose
+NC differs enough between models to be useful experimentally.
 
 ```mermaid
 flowchart LR
@@ -755,9 +760,9 @@ NC_rep3 = 10
 gives:
 
 ```text
-Rep1–Rep2: |8 - 16| = 8
-Rep1–Rep3: |8 - 10| = 2
-Rep2–Rep3: |16 - 10| = 6
+Rep 1–Rep 2: |8 - 16| = 8
+Rep 1–Rep 3: |8 - 10| = 2
+Rep 2–Rep 3: |16 - 10| = 6
 ```
 
 ---
@@ -789,9 +794,9 @@ A residue is evaluated independently for each representative pair.
 Using the previous example:
 
 ```text
-Rep1–Rep2 ΔNC = 8   → reporter for Rep1–Rep2
-Rep1–Rep3 ΔNC = 2   → not a reporter for Rep1–Rep3
-Rep2–Rep3 ΔNC = 6   → reporter for Rep2–Rep3
+Rep 1–Rep 2 ΔNC = 8   → reporter for Rep 1–Rep 2
+Rep 1–Rep 3 ΔNC = 2   → not a reporter for Rep 1–Rep 3
+Rep 2–Rep 3 ΔNC = 6   → reporter for Rep 2–Rep 3
 ```
 
 Therefore, a residue can be informative for one pair, two pairs, or all three
@@ -810,8 +815,8 @@ the lower NC value.
 For example:
 
 ```text
-Rep1 NC = 8
-Rep2 NC = 16
+Rep 1 NC = 8
+Rep 2 NC = 16
 ```
 
 results in:
@@ -862,8 +867,9 @@ not required for interpreting the complete reporter tables.
 - Arg → phenylglyoxal, p-hydroxyphenylglyoxal, 2,3-butanedione, 1,2-cyclohexanedione, methylglyoxal, kethoxal
 - Trp → NBS, HNB, NPS-Cl
 
-The complete mapping and literature basis should be documented in the
-corresponding Supporting Information table.
+The complete mapping, with the published application behind each reagent, is
+Table S1 of the paper's Supporting Information, and is reproduced in the
+user-facing documentation.
 
 ### Broadly reactive approaches
 
@@ -928,9 +934,9 @@ one representative comparison.
 
 For each residue, the file records whether it passes the threshold for:
 
-- Rep1–Rep2
-- Rep1–Rep3
-- Rep2–Rep3
+- Rep 1–Rep 2
+- Rep 1–Rep 3
+- Rep 2–Rep 3
 
 A residue can therefore appear once in this table while being associated with
 multiple representative comparisons.
@@ -1154,8 +1160,8 @@ treated as the primary interface; `entrypoint.sh` keeps older
 Clone the repository:
 
 ```bash
-git clone https://github.com/nematiaram/colabfold-rosetta-pipeline.git
-cd colabfold-rosetta-pipeline
+git clone https://github.com/LindertLab/PROBE-Select.git
+cd PROBE-Select
 ```
 
 Build:
@@ -1300,9 +1306,9 @@ For each reagent, display:
 
 - Reagent
 - Unique compatible reporter residues
-- Number of reporters for Rep1–Rep2
-- Number of reporters for Rep1–Rep3
-- Number of reporters for Rep2–Rep3
+- Number of reporters for Rep 1–Rep 2
+- Number of reporters for Rep 1–Rep 3
+- Number of reporters for Rep 2–Rep 3
 
 This preserves the pair-specific structural information and allows a user to
 select a covalent-labeling experiment according to the structural ambiguity that
